@@ -1,0 +1,41 @@
+name: Validate Documentation Files
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/validate-docs.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/validate-docs.yml'
+
+jobs:
+  required-documentation-files:
+    name: Check required documentation formats
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify required files exist in docs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          required_extensions=(sql md odf)
+          missing_extensions=()
+
+          for extension in "${required_extensions[@]}"; do
+            if ! find docs -type f -iname "*.${extension}" -print -quit | grep -q .; then
+              missing_extensions+=(".${extension}")
+            fi
+          done
+
+          if [ "${#missing_extensions[@]}" -gt 0 ]; then
+            echo "Missing required file format(s) in docs/: ${missing_extensions[*]}"
+            exit 1
+          fi
+
+          echo "docs/ contains the required .sql, .md, and .odf files."
