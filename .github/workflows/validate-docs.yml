@@ -24,18 +24,27 @@ jobs:
         run: |
           set -euo pipefail
 
-          required_extensions=(sql md odf)
-          missing_extensions=()
+          required_extensions=(sql pdf)
+          optional_extensions=(md png)
+          missing_files=()
 
           for extension in "${required_extensions[@]}"; do
             if ! find docs -type f -iname "*.${extension}" -print -quit | grep -q .; then
-              missing_extensions+=(".${extension}")
+              missing_files+=("docs/**/*.${extension}")
             fi
           done
 
-          if [ "${#missing_extensions[@]}" -gt 0 ]; then
-            echo "Missing required file format(s) in docs/: ${missing_extensions[*]}"
+          if [ "${#missing_files[@]}" -gt 0 ]; then
+            echo "Missing required file(s): ${missing_files[*]}"
             exit 1
           fi
 
-          echo "docs/ contains the required .sql, .md, and .odf files."
+          echo "docs/ contains the required .sql and .pdf files."
+
+          for extension in "${optional_extensions[@]}"; do
+            if find docs -type f -iname "*.${extension}" -print -quit | grep -q .; then
+              echo "Optional .${extension} file found in docs/."
+            else
+              echo "Optional .${extension} file not found in docs/."
+            fi
+          done
