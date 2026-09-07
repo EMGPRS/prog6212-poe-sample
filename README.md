@@ -26,24 +26,15 @@ When a required document is missing, the workflow shows the missing pattern in i
 
 ## Add It From Your Local Machine
 
-1. Open a terminal in the root folder of your project.
-2. Create the workflow folder:
-
-   ```powershell
-   New-Item -ItemType Directory -Force .github/workflows
-   ```
-
-3. Create `.github/workflows/validate-docs.yml` and copy the workflow content from [`.github/workflows/validate-docs.yml`](.github/workflows/validate-docs.yml).
-4. Add at least one `.sql` file and one `.pdf` file under `docs/`.
-5. Commit and push the workflow:
-
-   ```powershell
-   git add .github/workflows/validate-docs.yml docs
-   git commit -m "Add documentation validation workflow"
-   git push origin main
-   ```
-
-If your default branch has a different name, replace `main` in the final command with that branch name.
+1. Open your project folder in VS Code.
+2. In the **Explorer** panel, right-click the project root, select **New Folder**, and create a folder named `.github`.
+3. Right-click `.github`, select **New Folder**, and create a folder named `workflows`.
+4. Right-click `workflows`, select **New File**, and create `validate-docs.yml`.
+5. Copy the contents of [`.github/workflows/validate-docs.yml`](.github/workflows/validate-docs.yml) into the new file and save it.
+6. In the VS Code Explorer panel, add at least one `.sql` file and one `.pdf` file inside the `docs` folder.
+7. Open **GitHub Desktop** and select your project repository. The new and changed files appear in the **Changes** tab.
+8. Enter a summary such as `Add documentation validation workflow`, then select **Commit to main**. If your branch has a different name, GitHub Desktop shows that name instead.
+9. Select **Push origin** to upload the commit to GitHub.
 
 ## Check Results
 
